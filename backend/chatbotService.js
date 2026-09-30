@@ -67,17 +67,62 @@ const getLocalDateString = (date = new Date()) => {
     month: '2-digit',
     day: '2-digit'
   }
-  // 'en-CA' locale outputs YYYY-MM-DD
   return new Intl.DateTimeFormat('en-CA', options).format(date)
 }
 
 // Helper to get day name (e.g. "Monday")
 const getLocalDayName = (date = new Date()) => {
-  return date.toLocaleDateString('en-US', { weekday: 'long' })
-}// Helper to parse query and extract menu details
+  return date.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'Asia/Kolkata' })
+}
+
+// Helper: Normalize date strings from various formats to YYYY-MM-DD
+function normalizeDateInput(rawDate) {
+  if (!rawDate) return ''
+  const clean = String(rawDate).trim()
+
+  // 1. Strict ISO Match: YYYY-MM-DD
+  const isoMatch = clean.match(/^(\d{4})[./-](\d{1,2})[./-](\d{1,2})$/)
+  if (isoMatch) {
+    const y = isoMatch[1]
+    const m = String(isoMatch[2]).padStart(2, '0')
+    const d = String(isoMatch[3]).padStart(2, '0')
+    return `${y}-${m}-${d}`
+  }
+
+  // 2. Strict Indian Date Match: DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
+  const dmyMatch = clean.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/)
+  if (dmyMatch) {
+    const d = String(dmyMatch[1]).padStart(2, '0')
+    const m = String(dmyMatch[2]).padStart(2, '0')
+    const y = dmyMatch[3]
+    return `${y}-${m}-${d}`
+  }
+
+  // 3. Embedded ISO Match
+  const embeddedIso = clean.match(/\b(\d{4})[./-](\d{1,2})[./-](\d{1,2})\b/)
+  if (embeddedIso) {
+    const y = embeddedIso[1]
+    const m = String(embeddedIso[2]).padStart(2, '0')
+    const d = String(embeddedIso[3]).padStart(2, '0')
+    return `${y}-${m}-${d}`
+  }
+
+  // 4. Embedded Indian Date Match
+  const embeddedDmy = clean.match(/\b(\d{1,2})[./-](\d{1,2})[./-](\d{4})\b/)
+  if (embeddedDmy) {
+    const d = String(embeddedDmy[1]).padStart(2, '0')
+    const m = String(embeddedDmy[2]).padStart(2, '0')
+    const y = embeddedDmy[3]
+    return `${y}-${m}-${d}`
+  }
+
+  return clean
+}
+
+// Helper to parse query and extract menu details
 const parseMenuQuery = (query) => {
   const text = query.toLowerCase()
-  
+
   let meal = null
   if (/\bbreakfast\b/.test(text)) meal = 'breakfast'
   else if (/\blunch\b/.test(text)) meal = 'lunch'
@@ -98,37 +143,40 @@ const parseMenuQuery = (query) => {
   } else if (/\b(today|tonight)\b/.test(text)) {
     dateStr = getLocalDateString(baseDate)
   } else {
-    // Specific date parsing (e.g. "September 5" or "5th September" or "2026-08-30")
-    const months = {
-      jan: '01', january: '01',
-      feb: '02', february: '02',
-      mar: '03', march: '03',
-      apr: '04', april: '04',
-      may: '05',
-      jun: '06', june: '06',
-      jul: '07', july: '07',
-      aug: '08', august: '08',
-      sep: '09', sept: '09', september: '09',
-      oct: '10', october: '10',
-      nov: '11', november: '11',
-      dec: '12', december: '12'
+    const rawDateMatch = text.match(/\b\d{1,4}[./-]\d{1,2}[./-]\d{2,4}\b/)
+    if (rawDateMatch) {
+      dateStr = normalizeDateInput(rawDateMatch[0])
     }
 
-    for (const [name, num] of Object.entries(months)) {
-      const regex = new RegExp(`\\b(${name})\\s*(\\d{1,2})(?:st|nd|rd|th)?\\b|\\b(\\d{1,2})(?:st|nd|rd|th)?\\s*(?:of\\s*)?(${name})\\b`)
-      const match = text.match(regex)
-      if (match) {
-        const dayNum = match[2] || match[3]
-        const dayStr = String(dayNum).padStart(2, '0')
-        const currentYear = baseDate.getFullYear()
-        dateStr = `${currentYear}-${num}-${dayStr}`
-        break
+    if (!dateStr) {
+      const months = {
+        jan: '01', january: '01',
+        feb: '02', february: '02',
+        mar: '03', march: '03',
+        apr: '04', april: '04',
+        may: '05',
+        jun: '06', june: '06',
+        jul: '07', july: '07',
+        aug: '08', august: '08',
+        sep: '09', sept: '09', september: '09',
+        oct: '10', october: '10',
+        nov: '11', november: '11',
+        dec: '12', december: '12'
       }
-    }
-    
-    const dateMatch = text.match(/\b(\d{4})-(\d{2})-(\d{2})\b/)
-    if (dateMatch) {
-      dateStr = dateMatch[0]
+
+      for (const [name, num] of Object.entries(months)) {
+        const regex = new RegExp(
+          `\\b(${name})\\s*(\\d{1,2})(?:st|nd|rd|th)?\\b|\\b(\\d{1,2})(?:st|nd|rd|th)?\\s*(?:of\\s*)?(${name})\\b`
+        )
+        const match = text.match(regex)
+        if (match) {
+          const dayNum = match[2] || match[3]
+          const dayStr = String(dayNum).padStart(2, '0')
+          const currentYear = baseDate.getFullYear()
+          dateStr = `${currentYear}-${num}-${dayStr}`
+          break
+        }
+      }
     }
   }
 
@@ -136,41 +184,46 @@ const parseMenuQuery = (query) => {
     dateStr = getLocalDateString(baseDate)
   }
 
-  const isMenuQuestion = /\b(menu|food|eat|eating|having|dish|dishes)\b/.test(text) || meal !== null
+  const isMenuQuestion =
+    /\b(menu|food|eat|eating|having|dish|dishes|tiffin|canteen|mess|breakfast|lunch|dinner|snacks?)\b/.test(
+      text
+    )
 
   return { meal, dateStr, isMenuQuestion }
 }
 
 const getMenuReply = (query) => {
   const { meal, dateStr, isMenuQuestion } = parseMenuQuery(query)
-  
+
   if (!isMenuQuestion && !meal) {
     return null
   }
 
-  const targetDateStr = dateStr || getLocalDateString(new Date())
+  const todayStr = getLocalDateString(new Date())
+  const targetDateStr = dateStr || todayStr
   const dayMenu = menuData[targetDateStr]
 
   if (!dayMenu) {
-    // Check if we have available dates to suggest
     const availableDates = Object.keys(menuData).sort()
     if (availableDates.length > 0) {
-      return `Sorry, I don't have menu information for **${targetDateStr}**. Available dates in the system are: ${availableDates.map(d => `\`${d}\``).join(', ')}.`
+      const datesList = availableDates.map((d) => `\`${d}\``).join(', ')
+      return `Sorry, I don't have menu information for **${targetDateStr}**.\n\nAvailable menu dates in the system are: ${datesList}.`
     }
     return `Sorry, I don't have menu information for that date.`
   }
 
-  const formattedDate = new Date(targetDateStr).toLocaleDateString('en-US', {
+  const dateObj = new Date(`${targetDateStr}T12:00:00+05:30`)
+  const formattedDate = dateObj.toLocaleDateString('en-GB', {
     weekday: 'long',
+    day: '2-digit',
     month: 'long',
-    day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'Asia/Kolkata'
   })
 
-  const todayStr = getLocalDateString(new Date())
   const tomorrowStr = getLocalDateString(new Date(Date.now() + 86400000))
   const yesterdayStr = getLocalDateString(new Date(Date.now() - 86400000))
-  
+
   let relativeLabel = ''
   if (targetDateStr === todayStr) relativeLabel = "today's "
   else if (targetDateStr === tomorrowStr) relativeLabel = "tomorrow's "
@@ -199,14 +252,17 @@ const getMenuReply = (query) => {
 // Helper to parse query and extract college hours details
 const parseHoursQuery = (query) => {
   const text = query.toLowerCase()
-  
-  const isHoursQuery = /\b(hours|open|opening|close|closed|closing|start|starts|end|ends|time|times|working|schedule|timing)\b/.test(text)
-                       
+
+  const isHoursQuery =
+    /\b(hours|open|opening|close|closed|closing|start|starts|end|ends|time|times|working|schedule|timing|timings)\b/.test(
+      text
+    )
+
   if (!isHoursQuery) return null
 
   // Extract department
   let department = 'General'
-  if (/\b(cse|computer\s+science)\b/.test(text)) {
+  if (/\b(cse|computer\s+science|computer)\b/.test(text)) {
     department = 'CSE'
   } else if (/\b(library|lib)\b/.test(text)) {
     department = 'Library'
@@ -258,13 +314,15 @@ const getHoursReply = (query) => {
   const { department, dayName } = parsed
 
   const record = hoursData.find(
-    (item) => item.day.toLowerCase() === dayName.toLowerCase() && 
-              item.department.toLowerCase() === department.toLowerCase()
+    (item) =>
+      item.day.toLowerCase() === dayName.toLowerCase() &&
+      item.department.toLowerCase() === department.toLowerCase()
   )
 
   if (!record) {
-    // If specific department is not found for that day, fallback to General or mention
-    const anyRecord = hoursData.find(item => item.day.toLowerCase() === dayName.toLowerCase() && item.department.toLowerCase() === 'general')
+    const anyRecord = hoursData.find(
+      (item) => item.day.toLowerCase() === dayName.toLowerCase() && item.department.toLowerCase() === 'general'
+    )
     if (anyRecord) {
       return `I couldn't find specific hours for the **${department}** department on **${dayName}**, but general college hours are **${anyRecord.startTime} to ${anyRecord.endTime}**.`
     }
@@ -285,10 +343,6 @@ const getHoursReply = (query) => {
 // Helper to parse query and extract venue details
 const parseVenueQuery = (query) => {
   const text = query.toLowerCase()
-  
-  const isVenueQuery = /\b(where|location|building|floor|find|locate|room|lab|hall|auditorium|library)\b/.test(text)
-                       
-  if (!isVenueQuery) return null
 
   // Scan our venues database for exact or substring match
   let foundVenue = null
@@ -303,19 +357,19 @@ const parseVenueQuery = (query) => {
   // Fallback regex/keyword matches for common venue patterns
   if (!foundVenue) {
     if (/\bauditorium\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('auditorium'))
-    } else if (/\b(library|lib)\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('library'))
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('auditorium'))
+    } else if (/\b(library|lib)\b/.test(text) && !/\b(hours|time|timing|open|close)\b/.test(text)) {
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('library'))
     } else if (/\bseminar\s+hall\s+a\b/.test(text) || /\bhall\s+a\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('seminar hall a'))
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('seminar hall a'))
     } else if (/\bseminar\s+hall\s+b\b/.test(text) || /\bhall\s+b\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('seminar hall b'))
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('seminar hall b'))
+    } else if (/\bcse\s+lab\b/.test(text) || /\bprogramming\s+lab\b/.test(text)) {
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('cse lab'))
     } else if (/\blab\s+1\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase() === 'lab 1')
-    } else if (/\b(cse\s+lab|programming\s+lab)\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('cse lab'))
-    } else if (/\broom\s+101\b/.test(text) || /\b101\b/.test(text)) {
-      foundVenue = venuesData.find(v => v.name.toLowerCase().includes('101'))
+      foundVenue = venuesData.find((v) => v.name.toLowerCase() === 'lab 1')
+    } else if (/\broom\s*101\b/.test(text) || /\b101\b/.test(text)) {
+      foundVenue = venuesData.find((v) => v.name.toLowerCase().includes('101'))
     }
   }
 
@@ -323,123 +377,143 @@ const parseVenueQuery = (query) => {
 }
 
 const getVenueReply = (query) => {
-  const isVenueQ = query.toLowerCase().includes('where') || 
-                    query.toLowerCase().includes('location') || 
-                    query.toLowerCase().includes('building') || 
-                    query.toLowerCase().includes('floor') || 
-                    query.toLowerCase().includes('find') ||
-                    query.toLowerCase().includes('room') ||
-                    query.toLowerCase().includes('lab') ||
-                    query.toLowerCase().includes('hall') ||
-                    query.toLowerCase().includes('auditorium') ||
-                    query.toLowerCase().includes('library') ||
-                    query.toLowerCase().includes('locate')
-
-  if (!isVenueQ) return null
+  const text = query.toLowerCase()
+  const isExplicitVenueQuestion =
+    text.includes('where') ||
+    text.includes('location') ||
+    text.includes('building') ||
+    text.includes('floor') ||
+    text.includes('locate') ||
+    text.includes('how to reach') ||
+    text.includes('find venue') ||
+    text.includes('find room')
 
   const venue = parseVenueQuery(query)
-  if (!venue) {
-    const venueList = venuesData.map(v => v.name).join(', ')
-    return `Sorry, I don't have information about that venue. Registered venues include: ${venueList || 'None yet'}.`
+
+  if (venue) {
+    return `🏛️ **${venue.name}** is located in the **${venue.building}** on the **${venue.floor}**.\n\n_${venue.description}_`
   }
 
-  return `🏛️ **${venue.name}** is located in the **${venue.building}** on the **${venue.floor}**.
+  if (isExplicitVenueQuestion) {
+    const venueList = venuesData.map((v) => v.name).join(', ')
+    return `Sorry, I don't have location information about that specific venue. Registered venues include: ${venueList || 'None yet'}.`
+  }
 
-_${venue.description}_`
+  return null
+}
+
+// Helper: Split register number into prefix and integer suffix
+function splitReg(regStr) {
+  if (!regStr) return { prefix: '', num: null, numStr: '' }
+  const clean = String(regStr).trim().replace(/\s+/g, '').toUpperCase()
+  const match = clean.match(/^(.*?)(\d+)$/)
+  if (!match) return { prefix: clean, num: null, numStr: '' }
+  return {
+    prefix: match[1],
+    num: parseInt(match[2], 10),
+    numStr: match[2]
+  }
 }
 
 // Helper: Check if a register number is inside a range string
 function isRegNumberInRange(targetReg, rangeStr) {
   if (!targetReg || !rangeStr) return false
-  const target = targetReg.trim().toUpperCase()
-  const targetMatch = target.match(/^(.*?)(\d+)$/)
-  if (!targetMatch) return target === rangeStr.trim().toUpperCase()
+  const target = String(targetReg).trim().replace(/\s+/g, '').toUpperCase()
+  const targetParsed = splitReg(target)
+  if (targetParsed.num === null) {
+    return target === String(rangeStr).trim().replace(/\s+/g, '').toUpperCase()
+  }
 
-  const targetPrefix = targetMatch[1]
-  const targetNum = parseInt(targetMatch[2], 10)
-
-  const subRanges = rangeStr.split(',').map((s) => s.trim()).filter(Boolean)
+  const subRanges = String(rangeStr).split(',').map((s) => s.trim()).filter(Boolean)
   for (const sub of subRanges) {
-    const cleanSub = sub.toUpperCase()
+    const cleanSub = sub.replace(/\s+/g, '').toUpperCase()
     if (!cleanSub.includes('-')) {
       if (cleanSub === target) return true
       continue
     }
-    const [startRaw, endRaw] = cleanSub.split('-').map((s) => s.trim())
-    const startMatch = startRaw.match(/^(.*?)(\d+)$/)
-    if (!startMatch || startMatch[1] !== targetPrefix) continue
 
-    const startNum = parseInt(startMatch[2], 10)
+    const [startRaw, endRaw] = cleanSub.split('-').map((s) => s.trim())
+    const startParsed = splitReg(startRaw)
+    if (startParsed.num === null || targetParsed.prefix !== startParsed.prefix) continue
+
     let endNum = null
     if (/^\d+$/.test(endRaw)) {
-      if (endRaw.length === startMatch[2].length) {
+      if (endRaw.length === startParsed.numStr.length) {
         endNum = parseInt(endRaw, 10)
-      } else if (endRaw.length < startMatch[2].length) {
-        const prefixDigits = startMatch[2].slice(0, -endRaw.length)
+      } else if (endRaw.length < startParsed.numStr.length) {
+        const prefixDigits = startParsed.numStr.slice(0, -endRaw.length)
         endNum = parseInt(prefixDigits + endRaw, 10)
       } else {
         endNum = parseInt(endRaw, 10)
       }
     } else {
-      const endMatch = endRaw.match(/^(.*?)(\d+)$/)
-      if (endMatch && endMatch[1] === targetPrefix) {
-        endNum = parseInt(endMatch[2], 10)
+      const endParsed = splitReg(endRaw)
+      if (endParsed.prefix === startParsed.prefix && endParsed.num !== null) {
+        endNum = endParsed.num
       }
     }
 
-    if (endNum !== null && targetNum >= startNum && targetNum <= endNum) {
+    if (endNum !== null && targetParsed.num >= startParsed.num && targetParsed.num <= endNum) {
       return true
     }
   }
   return false
 }
 
-// Helper to parse query and extract exam hall details
-const getExamReply = (query) => {
+// Helper to parse query and extract student exam hall schedule
+const getStudentExamScheduleReply = (query) => {
   const text = query.trim().toUpperCase()
 
-  // Match register number pattern (e.g. 7376251CS101, 7376252AG105, 22CS101, etc.)
-  const regMatch = text.match(/\b([0-9]{5,8}[A-Z]{2,4}[0-9]{2,4})\b/i) || text.match(/\b([0-9]{2}[A-Z]{2,4}[0-9]{2,4})\b/i)
+  // Match register number pattern (e.g. 7376251CS101, 7376252AG105, 22CS101, 7376251 CS 101, etc.)
+  const regMatch =
+    text.match(/\b([0-9]{5,8}\s*[A-Z]{2,4}\s*[0-9]{2,4})\b/i) ||
+    text.match(/\b([0-9]{2}\s*[A-Z]{2,4}\s*[0-9]{2,4})\b/i)
 
-  const isExamIntent =
-    /\b(EXAM|EXAMS|HALL|HALLS|SEAT|SEATING|TEST|ARRANGEMENT|ROOM)\b/i.test(query) || Boolean(regMatch)
+  if (!regMatch) return null
 
-  if (!isExamIntent && !regMatch) return null
+  const studentReg = regMatch[1].replace(/\s+/g, '').toUpperCase()
 
-  if (regMatch) {
-    const studentReg = regMatch[1].toUpperCase()
+  // Search across ALL exam records
+  const matchingExams = examsData.filter((exam) => isRegNumberInRange(studentReg, exam.registerNumbers))
 
-    // Search across ALL exam records in the complete merged array
-    const matchingExams = examsData.filter((exam) => isRegNumberInRange(studentReg, exam.registerNumbers))
-
-    if (matchingExams.length > 0) {
-      if (matchingExams.length === 1) {
-        const exam = matchingExams[0]
-        return `🏫 **Exam Hall Found for ${studentReg}**:
+  if (matchingExams.length > 0) {
+    if (matchingExams.length === 1) {
+      const exam = matchingExams[0]
+      const displayDate = exam.date || 'Scheduled'
+      return `🏫 **Exam Hall Found for ${studentReg}**:
 • **Assigned Hall**: **${exam.hall}**
 • **Examination**: ${exam.examName}
-• **Date & Session**: ${exam.date} (${exam.session})
+• **Date & Session**: ${displayDate} (${exam.session})
 • **Timing**: ${exam.time}
 • **Branch & Course**: ${exam.branch} (${exam.courseCode})
 • **Allocated Range**: \`${exam.registerNumbers}\`
 • **Total Candidates in Hall**: ${exam.candidateCount}
 
 _You can also view the interactive visual seating layout in the **Exam Hall Finder** tab._`
-      }
-
-      // If multiple matching exams across dates or sessions
-      const listStr = matchingExams
-        .map(
-          (ex, i) =>
-            `**${i + 1}. Date ${ex.date} (${ex.session})**\n• **Hall**: **${ex.hall}** | **Time**: ${ex.time}\n• **Course**: ${ex.branch} (${ex.courseCode}) | **Exam**: ${ex.examName}`
-        )
-        .join('\n\n')
-
-      return `🏫 **Exam Schedule Found for ${studentReg}** (${matchingExams.length} arrangements found):\n\n${listStr}\n\n_Visit the **Exam Hall Finder** tab to view your visual seating layout._`
     }
 
-    return `I searched across all ${examsData.length} loaded exam records for register number **${studentReg}**, but couldn't find an assigned hall. Please verify your register number or check the **Exam Hall Finder** tab.`
+    // If multiple matching exams across dates or sessions
+    const listStr = matchingExams
+      .map((ex, i) => {
+        const displayDate = ex.date || 'Scheduled'
+        return `**${i + 1}. Date ${displayDate} (${ex.session})**\n• **Hall**: **${ex.hall}** | **Time**: ${ex.time}\n• **Course**: ${ex.branch} (${ex.courseCode}) | **Exam**: ${ex.examName}`
+      })
+      .join('\n\n')
+
+    return `🏫 **Exam Schedule Found for ${studentReg}** (${matchingExams.length} arrangements found):\n\n${listStr}\n\n_Visit the **Exam Hall Finder** tab to view your visual seating layout._`
   }
+
+  return `I searched across all ${examsData.length} loaded exam records for register number **${studentReg}**, but couldn't find an assigned hall. Please verify your register number or check the **Exam Hall Finder** tab.`
+}
+
+// Helper to answer general questions about exams
+const getGeneralExamReply = (query) => {
+  const isGeneralExamIntent =
+    /\b(exam|exams|test|periodical|seating arrangement|hall arrangement|exam schedule|exam timing)\b/i.test(
+      query
+    )
+
+  if (!isGeneralExamIntent) return null
 
   // Check for today's exam query
   const todayStr = getLocalDateString(new Date())
@@ -450,7 +524,7 @@ _You can also view the interactive visual seating layout in the **Exam Hall Find
   if (isTodayExamQuery) {
     const todayExams = examsData.filter((e) => e.date === todayStr)
     if (todayExams.length === 0) {
-      const distinctDates = Array.from(new Set(examsData.map((e) => e.date))).sort()
+      const distinctDates = Array.from(new Set(examsData.map((e) => e.date).filter(Boolean))).sort()
       const datesText =
         distinctDates.length > 0
           ? ` Scheduled exam dates available in the system are: **${distinctDates.join(', ')}**.`
@@ -466,51 +540,49 @@ _You can also view the interactive visual seating layout in the **Exam Hall Find
 To find your exact hall, please enter your **Register Number** (e.g. \`7376251CS101\`) or open the **Exam Hall Finder** tab.`
   }
 
-  if (/\b(exam|exams|test|periodical|hall|seating)\b/i.test(query)) {
-    if (examsData.length === 0) {
-      return `No exam hall arrangements are currently loaded in the system.`
-    }
-    const distinctDates = Array.from(new Set(examsData.map((e) => e.date))).sort()
-    return `Exam hall arrangements are available for date(s): **${distinctDates.join(', ')}** (Total: ${examsData.length} records).
-To find your specific hall, please provide your **Register Number** (e.g. "Where is my hall for 7376251CS101?") or visit the **Exam Hall Finder** tab.`
+  if (examsData.length === 0) {
+    return `No exam hall arrangements are currently loaded in the system.`
   }
 
-  return null
+  const distinctDates = Array.from(new Set(examsData.map((e) => e.date).filter(Boolean))).sort()
+  return `Exam hall arrangements are available for date(s): **${distinctDates.join(', ')}** (Total: ${examsData.length} records).
+To find your specific hall, please provide your **Register Number** (e.g. "Where is my hall for 7376251CS101?") or visit the **Exam Hall Finder** tab.`
 }
 
 /**
  * Main response dispatcher.
- * Resolves the query against Menu, Hours, Venues, and Exams.
+ * Resolves the query against Student Register No, Venues, Menu, Hours, and General Exams.
  */
 export const getBotResponse = (query) => {
-  if (!query || !query.trim()) return "Please ask me something!"
+  if (!query || !query.trim()) return 'Please ask me something!'
 
   const rawQuery = query.trim()
-  // Normalize whitespace, capitalization, and fix spelling mistakes on keywords
   const normalizedQuery = normalizeAndCorrectText(rawQuery)
 
-  // 1. Try Exam Hall lookup
-  let reply = getExamReply(rawQuery)
+  // 1. Try Student Register Number Exam Lookup
+  let reply = getStudentExamScheduleReply(rawQuery)
   if (reply) return reply
 
-  // 2. Try Menu lookup
-  reply = getMenuReply(normalizedQuery)
-  if (reply) return reply
-
-  // 3. Try Hours lookup
-  reply = getHoursReply(normalizedQuery)
-  if (reply) return reply
-
-  // 4. Try Venue lookup
+  // 2. Try Venue Location Lookup (e.g. "Where is Seminar Hall A?")
   reply = getVenueReply(normalizedQuery)
   if (reply) return reply
 
-  // 5. Default Fallback
+  // 3. Try Menu Lookup
+  reply = getMenuReply(normalizedQuery)
+  if (reply) return reply
+
+  // 4. Try Operating Hours Lookup
+  reply = getHoursReply(normalizedQuery)
+  if (reply) return reply
+
+  // 5. Try General Exam Lookup (e.g. "When are exams?", "Today's exams")
+  reply = getGeneralExamReply(normalizedQuery)
+  if (reply) return reply
+
+  // 6. Default Fallback
   return `I received your question: "${rawQuery}". Right now, I can help you with:
 • **Exam Hall Finder** (e.g. "Where is my exam hall for 7376251CS101?", "Find seat for 7376252AG105")
 • **Food menu** (e.g. "What's today's lunch?", "What's for breakfast tomorrow?")
 • **College hours** (e.g. "What time does the CSE department open on Monday?", "Is the library open on Saturday?")
 • **Venue locations** (e.g. "Where is Seminar Hall A?", "Find CSE Lab 1")`
 }
-
-

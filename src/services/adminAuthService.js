@@ -4,7 +4,7 @@
  * Uses localStorage for persistent session support across page refreshes.
  */
 
-const API_BASE = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env?.VITE_API_BASE_URL || ''
 const TOKEN_KEY = 'college_admin_token'
 const EMAIL_KEY = 'college_admin_email'
 

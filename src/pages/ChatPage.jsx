@@ -27,25 +27,20 @@ function FormattedMessage({ text }) {
         }
 
         // Check if line is a bullet point (starts with • or - or *)
-        const isBullet = /^[•\-\*]\s+/.test(trimmed)
-        const content = isBullet ? trimmed.replace(/^[•\-\*]\s+/, '') : line
+        const isBullet = /^[•\-*]\s+/.test(trimmed)
+        const content = isBullet ? trimmed.replace(/^[•\-*]\s+/, '') : line
 
         // Helper to parse bold, italic, and code inside text
         const renderInline = (str) => {
-          // Tokens regex matching **bold**, _italic_, `code`
           const parts = []
           let remaining = str
           let key = 0
 
           while (remaining.length > 0) {
-            // Match bold **text**
             const boldMatch = remaining.match(/^(.*?)\*\*(.*?)\*\*(.*)$/)
-            // Match italic _text_
             const italicMatch = remaining.match(/^(.*?)_(.*?)_(.*)$/)
-            // Match code `text`
             const codeMatch = remaining.match(/^(.*?)`(.*?)`(.*)$/)
 
-            // Find earliest match index
             let earliest = null
             if (boldMatch) earliest = { type: 'bold', match: boldMatch, index: boldMatch[1].length }
             if (italicMatch && (!earliest || italicMatch[1].length < earliest.index)) {
@@ -104,7 +99,7 @@ function FormattedMessage({ text }) {
 function ChatPage() {
   const initialBotMessage = {
     id: 1,
-    text: "Hello! 👋 I am your **College Assistant**.\n\nYou can ask me about:\n• **Food Menus** (e.g. 'What is today's lunch?')\n• **Operating Hours** (e.g. 'What time does the library open?')\n• **Venues & Classrooms** (e.g. 'Where is Seminar Hall A?')\n\nHow can I help you today?",
+    text: "Hello! 👋 I am your **College Assistant**.\n\nYou can ask me about:\n• **Exam Hall Finder** (e.g. 'Where is my exam hall for 7376251CS101?')\n• **Food Menus** (e.g. 'What is today's lunch?')\n• **Operating Hours** (e.g. 'What time does the library open on Monday?')\n• **Venues & Classrooms** (e.g. 'Where is Seminar Hall A?')\n\nHow can I help you today?",
     sender: 'bot',
     timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
@@ -246,7 +241,7 @@ function ChatPage() {
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Ask about food menus, hours, or venue locations..."
+          placeholder="Ask about food menus, hours, venues, or exam halls..."
           className="chat-input"
           maxLength={500}
           disabled={isTyping}
@@ -263,4 +258,3 @@ function ChatPage() {
 }
 
 export default ChatPage
-

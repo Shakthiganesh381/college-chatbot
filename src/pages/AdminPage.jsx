@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { adminAuthService } from '../services/adminAuthService'
 import './AdminPage.css'
 
-const API_BASE = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env?.VITE_API_BASE_URL || ''
 
 function AdminPage() {
   const navigate = useNavigate()
@@ -30,7 +30,7 @@ function AdminPage() {
   const [previewOpen, setPreviewOpen] = useState(false)
 
   // Fetch current data for preview
-  const fetchCurrentData = async (type) => {
+  const fetchCurrentData = useCallback(async (type) => {
     setLoadingPreview(true)
     try {
       const response = await fetch(`${API_BASE}/api/admin/data/${type}`, {
@@ -52,14 +52,14 @@ function AdminPage() {
     } finally {
       setLoadingPreview(false)
     }
-  }
+  }, [navigate])
 
   // Load active tab data whenever activeTab changes or preview opened
   useEffect(() => {
     if (previewOpen) {
       fetchCurrentData(activeTab)
     }
-  }, [activeTab, previewOpen])
+  }, [activeTab, previewOpen, fetchCurrentData])
 
   const handleUpload = async (type, files) => {
     if (!files || (files instanceof FileList && files.length === 0)) return
@@ -184,7 +184,7 @@ function AdminPage() {
           [type]: { success: false, text: data.error || 'Failed to clear data.' }
         }))
       }
-    } catch (err) {
+    } catch {
       setStatusMessages((prev) => ({
         ...prev,
         [type]: { success: false, text: 'Failed to communicate with the server.' }
@@ -219,7 +219,6 @@ function AdminPage() {
       manageLink: '/admin/exam-hall'
     }
   ]
-
 
   // Render Table for active data preview
   const renderDataPreview = () => {
@@ -522,4 +521,3 @@ function AdminPage() {
 }
 
 export default AdminPage
-

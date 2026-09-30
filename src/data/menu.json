@@ -1,26 +1,188 @@
 {
+  "2026-08-01": {
+    "breakfast": "Idly; Medhu Vadai; Paal Venpongal; Tiffin Sambar; Idly podi with gingelly oil; Coconut chutney/Red chili; Coffee/Milk/Tea",
+    "lunch": "Rice; Kollu Paruppu; Kollu Rasam; Potato Fry; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Machine Dosa; Coconut Rice; Nilgiri Kuruma; Curd rice; Groundnut chutney; Banana"
+  },
+  "2026-08-02": {
+    "breakfast": "Bread; Jam, Butter; Malli Semiya; Coconut / Curry leaves chutney; Coffee/Milk/Tea",
+    "lunch": "Veg Biryani; Onion raita; White Rice; Egg gravy; Tomato Rasam; Butter milk",
+    "snacks": "",
+    "dinner": "Idly; Tomato Thokku; Puli sadham; Curd rice; Veg chutney; Lemon juice"
+  },
+  "2026-08-03": {
+    "breakfast": "Ghee Podi uthappam; Wheat Rava Upma; Chowchow sambar; Pudina chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Radish Sambar; Tomato Rasam; Paruppuvadai + Chow chow kootu; Payasam (Pasi Paruppu); Buttermilk",
+    "snacks": "",
+    "dinner": "Parotta; Soya Kuruma; Biryani Kushka; Coconut chutney / white; Curd rice; Banana"
+  },
+  "2026-08-04": {
+    "breakfast": "Idly; Lapsi sweet; Bread /Rava upma; Onion Kuruma (homemade style); Idly podi with gingelly oil; Kara chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Vendaikai Puli Kulambu; Dhall Rasam; Potato peas poriyal; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Onion Dosa; Thattapayaru sadham; Tomato kulambu; Coconut / Malli Chutney; Curd rice; Badham milk / Sukkupal"
+  },
+  "2026-08-05": {
+    "breakfast": "Malli Pongal; Vegetable Semiya (Carrot,Beans,green peas); Medhuvadai; Sambar; Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "White rice; Kushka; Curd rice; Onion raita; Paruppu thuvayal; Butter milk; Pickle",
+    "snacks": "",
+    "dinner": "Chapatti; Avul sweet; Kasmiri pulao; Kadai veg curry; Boiled egg; Curd rice; Onion Raita"
+  },
+  "2026-08-06": {
+    "breakfast": "Kambu Idly; Sweet Pongal (Karupatti); Rava Kitchadi; Moong Dal Sambar; Groundnut chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Thattapayaru Surakai kulambu; Milagu Rasam; Beetroot Poriyal; Buttermilk; Kambu Koozh + Vathal",
+    "snacks": "",
+    "dinner": "Curry leaves Dosa; Noodles; Plain kuruma; Coconut chutney; Tomato Sauce; Curd rice; Banana"
+  },
+  "2026-08-07": {
+    "breakfast": "Beetroot Dosa; Wheat rava upma + Curd; Sambar; Coriander chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Drumstick Sambar; Tomato Rasam; Aviyal; Wheat Rava Payasam; Buttermilk",
+    "snacks": "",
+    "dinner": "Chapatti; Fruit Jam; Channa masala; Black Sundal Pulao; Masala Egg; Curd rice"
+  },
+  "2026-08-08": {
+    "breakfast": "Idly; Semiya; Meduvadai; Tiffin Sambar (small onion); Tomato chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Pachai Payaru Kulambu; Dhall Rasam; Soya varuval; Curd; Appalam",
+    "snacks": "",
+    "dinner": "Machine Dosa; Veg Paya; Coconut Chutney; Arisiparuppu sadham; Vadagam; Curd rice; Banana"
+  },
+  "2026-08-09": {
+    "breakfast": "Bread; Jam, Butter; Ven Pongal; Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "Mushroom biryani; Onion raita; White rice; Pacha puli/Coconut milk rasam; Egg gravy; Butter milk",
+    "snacks": "",
+    "dinner": "Kal dosai; Onion Sambar; Schezwan fried rice; Curd rice & Rose milk; Kara chutney; Tomato sauce"
+  },
+  "2026-08-10": {
+    "breakfast": "Millet Idly; Ukkarai Sweet; Tomato kulambu; Kothumai Rava Kitchadi; Idly podi with gingelly oil; Coriander / Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Vendaikai Sambar; Kollu Rasam; Paruppuvadai + Cabbage poriyal; Payasam (Semiya Payasm); Buttermilk",
+    "snacks": "",
+    "dinner": "Rumali roti; Veg Butter Masala; Tomato Bath; Onion raita; Curd rice; Banana"
+  },
+  "2026-08-11": {
+    "breakfast": "Onion Uthappam; White rava Upma; Tiffen sambar; Kara Chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Sundakai vathal kulambu; Paruppu Rasam; Bottle gourd kootu; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Idly; Pachai Payaru Sadham; Onion Kuruma; Coconut chutney; Curd rice; Idly podi with gingelly oil; Badham Milk"
+  },
+  "2026-08-12": {
+    "breakfast": "Thinai pongal; Semiya biryani; Medhu Vadai; Potato + small onion Carrot Sambar; Coconut / Curry leaves chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Sambar Sadam; Tomato Rice; Potato varuval; Buttermilk; Vadagam; Pickle",
+    "snacks": "",
+    "dinner": "Chapatti; Ragi sweet; Peas Pulao; Boiled egg; Veg kuruma (Hotel style); Curd rice; Veg Salad"
+  },
+  "2026-08-13": {
+    "breakfast": "Idly; Kalkandu pineapple Pongal; Aval upma; Kadala Curry; Onion tomato thuvayal; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Rajma Beans Brinjal - Kulambu; Puli Rasam; Beetroot Poriyal; Buttermilk; Kambu Koozh + Vathal",
+    "snacks": "",
+    "dinner": "Kal dosai; Tiffin Sambar; Noodles; Coconut Chutney; Tomato Sauce; Curd rice; Banana"
+  },
+  "2026-08-14": {
+    "breakfast": "Onion uthappam; Ragi semiya (Karam); Tomato Kulambu; Coriander chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Drumstick + Mango Sambar; Lemon Rasam; Potato 65; Payasam (Surakai + Javvarisi); Buttermilk",
+    "snacks": "",
+    "dinner": "Chapatti; Meal maker kuruma; Ghee rice; Masala Egg; Curd rice; Coconut chutney"
+  },
+  "2026-08-15": {
+    "breakfast": "Beetroot Idly; Medhu Vadai; Malli Pongal; Tiffin Sambar; Idly podi with gingelly oil; Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Ladies finger Puli Kulambu (Chettinad Style); Dhall rasam; Yam poriyal; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Machine Dosa; Carrot rice; Veg Paya; Curd rice; Mint chutney; Banana"
+  },
+  "2026-08-16": {
+    "breakfast": "Bread; Jam,Butter; Noodles; Tomato Sauce; Coffee/Milk/Tea",
+    "lunch": "Soya biryani; White rice; Onion raita; Pacha puli rasam; Egg gravy; Butter milk",
+    "snacks": "",
+    "dinner": "Idly; Egg fried rice; Tomato Sauce; Onion Sambar; Veg Chutney; Curd rice + Rose milk"
+  },
+  "2026-08-17": {
+    "breakfast": "Podi Dosai; Nilgiri Kuruma; White Rava Kitchadi; Red chilli Coconut Chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Dhall fry; Milagu rasam; Carrot green peas poriyal; Paruppuvadai; Payasam (White rava); Butter milk",
+    "snacks": "",
+    "dinner": "Parotta; Empty salna; Soya biryani (Kurunai rice); Onion raita; Coconut Chutney; Curd rice; Banana"
+  },
+  "2026-08-18": {
+    "breakfast": "Idly; Beetroot Kesari; Avul Upma / Bread Upma; Thattapayaru kuruma; Idly podi with gingelly oil; Coconut / Malli chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Chettinad Ennaikatharikai Kulambu; Paruppu Rasam; Bottle gourdporiyal; Curd; Appalam",
+    "snacks": "",
+    "dinner": "Set Dosa; Vada Curry; Puli Sadam; Tomato Chutney; Curd rice; Idly podi with gingelly oil; Badham milk"
+  },
+  "2026-08-19": {
+    "breakfast": "Paal pongal; Sambar; Semiya Upma; Veg chutney; Meduvadai; Coffee/Milk/Tea",
+    "lunch": "White rice; Arisi paruppu sadham; Curd rice; Thuvayal; Vadagam; Pickle; Butter milk",
+    "snacks": "",
+    "dinner": "Chapatti; Avul sweet; Veg biryani; Pattani paal curry; Boiled Egg; Curd Rice; Onion raita"
+  },
+  "2026-08-20": {
+    "breakfast": "Kambu idly; Sweet Pongal (Nattusakkarai); Wheat Rava Kitchadi; Groundnut kulambu; Mint chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Cluster beans vanthal kulambu; Tomato Rasam; Kadhamba poriyal; Butter Milk; Kambu Koozh + Vathal",
+    "snacks": "",
+    "dinner": "Dosai; Sambar; Noodles; Coconut Chutney; Curd rice; Idly podi with gingelly oil; Banana"
+  },
+  "2026-08-21": {
+    "breakfast": "Veg uthappam (Soya); White Rava Upma; Sambar; Kara chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Brinjal Sambar; Pineapple Rasam; Potato Varuval; Ada Pradhaman Payasam; Buttermilk",
+    "snacks": "",
+    "dinner": "Chapatti + Fruit jam; Mint Rice; Kadai veg curry; Egg masala; Curd rice; Veg Salad"
+  },
+  "2026-08-22": {
+    "breakfast": "Idly; Semiya Kitchadi; Medhu Vadai; Kumbakonam Kadappa; Coconut chutney / Red chilli; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Milaguthakali Vathal - Pulikulambu; Lemon Rasam; Meal Maker Poriyal; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Pesarattu Dosa; Kuruma; Kara Chutney; Karuveppilai sadam; Idly podi with gingelly oil; Banana"
+  },
+  "2026-08-23": {
+    "breakfast": "Bread; Jam,Butter; Thinai Pongal; Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "Veg biryani; Onion raita; Rice; Pachai Puli Rasam; Egg gravy,Buttermilk",
+    "snacks": "",
+    "dinner": "Idly; Brinjal Kosthu; Black Sundal Rice; Curd rice & Rose milk; Groundnut chutney"
+  },
+  "2026-08-24": {
+    "breakfast": "Podi uthappam; Sambar; Bread / Avul upma; Malli chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Paruppu keerai kulambu; Puli Rasam; Payasam (Semiya); Paruppuvadai + Ash gourd kootu; Buttermilk",
+    "snacks": "",
+    "dinner": "Rumali rotti; Veg Kuruma; Tomato Rice; Onion raita; Curd rice; Banana"
+  },
+  "2026-08-25": {
+    "breakfast": "Idly; Lapsi Sweet; Rava Kitchadi (White); Tomato kuruma; Groundnut chutney; Idly podi with gingelly oil; Coffee/Milk/Tea",
+    "lunch": "Rice; Black Sundal kulambu; Dhall Rasam; Beetroot Poriyal; Curd; Appalam",
+    "snacks": "",
+    "dinner": "Kal dosai (Potato masala); Noodles; Sambar; Coconut chutney; Tomato Sauce; Curd rice; Rasna mango flavor"
+  },
+  "2026-08-26": {
+    "breakfast": "Venpongal (Seeragasamba kurunai); Veg Semiya; Medhu Vadai; Drumstick Sambar; Coconut / Malli chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Pattani Tomato Bath; Sambar sadham; Potato brinjal varuval; Buttermilk; Vadagam; Pickle",
+    "snacks": "",
+    "dinner": "Chapatti; Ragi sweet; Mint Rice; Egg pepper fry; Aloo mutter; Curd rice; Coconut chutney"
+  },
+  "2026-08-27": {
+    "breakfast": "Ragi / Plain Idly; Sweet Pongal (Jaggery); Tomato Kulambu; Wheat rava + Curd; Groundnut chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Avaramochai Brinjal-Kulambu; Tomato Rasam; Carrot beans poriyal; Curd; Kambu Koozh + Vathal",
+    "snacks": "",
+    "dinner": "Kara dosa; Arisiparuppu Sadam; Tiffin Sambar; Coconut / Curry leaves Chutney; Curd rice & Banana"
+  },
+  "2026-08-28": {
+    "breakfast": "Tomato masal uthappam; Potato Kuruma; Avul upma; Coconut chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Kadamba Sambar; Puli rasam; Yellow pumpkin poriyal; Payasam (Carrot & Javvarisi); Butter milk",
+    "snacks": "",
+    "dinner": "Chapatti; Mixed veg curry; Fruit Jam; Boiled Egg; Jeera rice; Curd rice"
+  },
   "2026-08-29": {
-    "breakfast": "Puri Sabji and Halwa",
-    "lunch": "Jeera Rice, Dal Fry, and Aloo Gobi",
-    "snacks": "Filter Coffee and Samosa",
-    "dinner": "Dosa and Coconut Chutney"
+    "breakfast": "Idly; Medhu Vadai; Paal Venpongal; Tiffin Sambar; Idly podi with gingelly oil; Coconut chutney / Red chili; Coffee/Milk/Tea",
+    "lunch": "Rice; Kollu Paruppu; Kollu Rasam; Potato Fry; Appalam; Curd",
+    "snacks": "",
+    "dinner": "Machine Dosa; Coconut Rice; Nilgiri Kuruma; Curd rice; Groundnut chutney; Banana"
   },
   "2026-08-30": {
-    "breakfast": "Idli and Sambar",
-    "lunch": "Rice, Sambar and Vegetable Poriyal",
-    "snacks": "Tea and Biscuit",
-    "dinner": "Chapati and Kurma"
+    "breakfast": "Bread; Jam, Butter; Malli Semiya; Coconut / Curry leaves chutney; Coffee/Milk/Tea",
+    "lunch": "Soya biryani; Onion raita; White Rice; Egg gravy; Tomato Rasam; Butter milk",
+    "snacks": "",
+    "dinner": "Idly; Tomato Thokku; Puli sadham; Curd rice; Veg chutney; Lemon juice"
   },
   "2026-08-31": {
-    "breakfast": "Rava Upma and Kesari Bhath",
-    "lunch": "Veg Biryani, Raita, and Gobi Manchurian",
-    "snacks": "Milk and Veg Cutlet",
-    "dinner": "Phulka and Paneer Butter Masala"
-  },
-  "2026-09-05": {
-    "breakfast": "Masala Dosa with Chutney",
-    "lunch": "Lemon Rice, Curd Rice, and Potato Fry",
-    "snacks": "Filter Coffee and Banana Fritters",
-    "dinner": "Naan and Mushroom Masala"
+    "breakfast": "Ghee Podi uthappam; Wheat Rava Upma; Chowchow sambar; Pudina chutney; Coffee/Milk/Tea",
+    "lunch": "Rice; Radish Sambar; Tomato Rasam; Paruppuvadai + Chow chow kootu; Payasam (Pasi Paruppu); Buttermilk",
+    "snacks": "",
+    "dinner": "Parotta; Soya Kuruma; Biryani Kushka; Coconut chutney / white; Curd rice; Banana"
   }
 }

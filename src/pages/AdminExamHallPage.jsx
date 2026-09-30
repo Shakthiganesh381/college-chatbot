@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { adminAuthService } from '../services/adminAuthService'
 import { generateHallSeatsList, formatDisplayDate } from '../services/examHallService'
 import './AdminExamHallPage.css'
 
-const API_BASE = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env?.VITE_API_BASE_URL || ''
 
 function AdminExamHallPage() {
   const [exams, setExams] = useState([])
@@ -39,7 +39,7 @@ function AdminExamHallPage() {
   const navigate = useNavigate()
   const adminEmail = adminAuthService.getEmail()
 
-  const fetchExams = async () => {
+  const fetchExams = useCallback(async () => {
     setLoading(true)
     try {
       const res = await fetch(`${API_BASE}/api/admin/exams`, {
@@ -56,16 +56,16 @@ function AdminExamHallPage() {
       if (json.success && Array.isArray(json.data)) {
         setExams(json.data)
       }
-    } catch (err) {
+    } catch {
       setError('Failed to load exam arrangements from backend server.')
     } finally {
       setLoading(false)
     }
-  }
+  }, [navigate])
 
   useEffect(() => {
     fetchExams()
-  }, [])
+  }, [fetchExams])
 
   const handleLogout = async () => {
     await adminAuthService.logout()
@@ -164,7 +164,7 @@ function AdminExamHallPage() {
       } else {
         setError(result.error || 'Failed to save exam arrangement.')
       }
-    } catch (err) {
+    } catch {
       setError('Server communication failed.')
     }
   }
@@ -243,7 +243,7 @@ function AdminExamHallPage() {
       } else {
         setError(result.error || 'Invalid CSV format. Please check the required columns.')
       }
-    } catch (err) {
+    } catch {
       setError('Upload request failed. Make sure the backend server is running.')
     } finally {
       setUploading(false)

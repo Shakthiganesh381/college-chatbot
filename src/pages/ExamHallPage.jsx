@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import {
   getTodayDateStringIndia,
   formatDisplayDate,
@@ -77,11 +77,11 @@ function VisualHallLayout({ result }) {
 
 function ExamHallPage() {
   const [examsList, setExamsList] = useState(getAllExams())
-  const todayDateStr = getTodayDateStringIndia()
+  const todayDateStr = useMemo(() => getTodayDateStringIndia(), [])
 
-  // Live fetch from public backend endpoint on mount
+  // Live fetch from backend endpoint on mount
   useEffect(() => {
-    const apiBase = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000'
+    const apiBase = import.meta.env?.VITE_API_BASE_URL || ''
     fetch(`${apiBase}/api/exams`)
       .then((r) => r.json())
       .then((data) => {
@@ -94,42 +94,56 @@ function ExamHallPage() {
       })
   }, [])
 
-  // Dynamic calculations from active merged examsList
-  const allAvailableDates = Array.from(new Set(examsList.map((e) => e.date).filter(Boolean))).sort()
-  const examToday = hasExamToday(examsList)
-  const nextScheduledDate = getNextScheduledExamDate(examsList)
+  // Dynamic calculations from active examsList
+  const allAvailableDates = useMemo(
+    () => Array.from(new Set(examsList.map((e) => e.date).filter(Boolean))).sort(),
+    [examsList]
+  )
+  const examToday = useMemo(() => hasExamToday(examsList, todayDateStr), [examsList, todayDateStr])
+  const nextScheduledDate = useMemo(
+    () => getNextScheduledExamDate(examsList, todayDateStr),
+    [examsList, todayDateStr]
+  )
 
   // Default selected date to today if exams exist today, otherwise first available date or today
-  const [selectedDate, setSelectedDate] = useState(
-    examToday ? todayDateStr : (allAvailableDates[0] || todayDateStr)
-  )
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = getTodayDateStringIndia()
+    const initialExams = getAllExams()
+    return hasExamToday(initialExams, today) ? today : (allAvailableDates[0] || today)
+  })
+
   const [session, setSession] = useState('ALL')
   const [registerNumber, setRegisterNumber] = useState('')
   const [searchResult, setSearchResult] = useState(null)
-  const [viewMode, setViewMode] = useState('both') // 'search' | 'browse' | 'both'
 
-  // Update selectedDate if examsList loads and current selectedDate is not set
+  // Sync selected date if examsList updates and selectedDate is not present in available dates
   useEffect(() => {
     if (allAvailableDates.length > 0 && !allAvailableDates.includes(selectedDate)) {
-      if (examToday) {
+      if (allAvailableDates.includes(todayDateStr)) {
         setSelectedDate(todayDateStr)
       } else {
         setSelectedDate(allAvailableDates[0])
       }
     }
-  }, [examsList])
+  }, [allAvailableDates, selectedDate, todayDateStr])
 
   // Get all matching arrangements for currently selected date and session
-  const matchingHalls = getExamsByDateAndSession(selectedDate, session, examsList)
+  const matchingHalls = useMemo(
+    () => getExamsByDateAndSession(selectedDate, session, examsList),
+    [selectedDate, session, examsList]
+  )
 
   // Group halls by hall name for clear visual breakdown
-  const hallsSummary = {}
-  for (const item of matchingHalls) {
-    if (!hallsSummary[item.hall]) {
-      hallsSummary[item.hall] = []
+  const hallsSummary = useMemo(() => {
+    const summary = {}
+    for (const item of matchingHalls) {
+      if (!summary[item.hall]) {
+        summary[item.hall] = []
+      }
+      summary[item.hall].push(item)
     }
-    hallsSummary[item.hall].push(item)
-  }
+    return summary
+  }, [matchingHalls])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -145,11 +159,11 @@ function ExamHallPage() {
     setSearchResult(result)
   }
 
-  const handleResetToToday = () => {
+  const handleResetToToday = useCallback(() => {
     setSelectedDate(todayDateStr)
     setSession('ALL')
     setSearchResult(null)
-  }
+  }, [todayDateStr])
 
   return (
     <div className="exam-hall-container">
@@ -472,4 +486,3 @@ function ExamHallPage() {
 }
 
 export default ExamHallPage
-

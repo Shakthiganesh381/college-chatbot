@@ -2,7 +2,7 @@
  * Frontend chatbot service client.
  * Dispatches the chat messages to the Express backend API.
  */
-const API_BASE = import.meta.env?.VITE_API_BASE_URL || 'http://localhost:5000'
+const API_BASE = import.meta.env?.VITE_API_BASE_URL || ''
 
 export const getBotResponse = async (query) => {
   if (!query || !query.trim()) return "Please ask me something!"
