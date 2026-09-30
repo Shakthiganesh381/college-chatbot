@@ -1,0 +1,86 @@
+[
+  {
+    "day": "Monday",
+    "department": "General",
+    "startTime": "08:30",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Monday",
+    "department": "CSE",
+    "startTime": "09:00",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Monday",
+    "department": "Library",
+    "startTime": "08:00",
+    "endTime": "20:00"
+  },
+  {
+    "day": "Tuesday",
+    "department": "General",
+    "startTime": "08:30",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Tuesday",
+    "department": "CSE",
+    "startTime": "09:00",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Wednesday",
+    "department": "General",
+    "startTime": "08:30",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Wednesday",
+    "department": "CSE",
+    "startTime": "09:00",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Thursday",
+    "department": "General",
+    "startTime": "08:30",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Thursday",
+    "department": "CSE",
+    "startTime": "09:00",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Friday",
+    "department": "General",
+    "startTime": "08:30",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Friday",
+    "department": "CSE",
+    "startTime": "09:00",
+    "endTime": "16:30"
+  },
+  {
+    "day": "Saturday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "13:00"
+  },
+  {
+    "day": "Saturday",
+    "department": "Library",
+    "startTime": "09:00",
+    "endTime": "16:00"
+  },
+  {
+    "day": "Sunday",
+    "department": "General",
+    "startTime": "Closed",
+    "endTime": "Closed"
+  }
+]

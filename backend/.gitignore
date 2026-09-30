@@ -1,0 +1,12 @@
+# Backend Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.log

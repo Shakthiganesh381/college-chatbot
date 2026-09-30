@@ -1,0 +1,44 @@
+[
+  {
+    "day": "Monday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Tuesday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Wednesday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Thursday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Friday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Saturday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  },
+  {
+    "day": "Sunday",
+    "department": "General",
+    "startTime": "09:00",
+    "endTime": "17:00"
+  }
+]

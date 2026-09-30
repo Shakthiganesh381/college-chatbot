@@ -1,0 +1,15 @@
+{
+  "name": "college-chatbot-backend",
+  "version": "1.0.0",
+  "description": "Express backend server for College Information Chatbot",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^2.3.0"
+  }
+}

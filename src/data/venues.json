@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Seminar Hall A",
+    "building": "Main Block",
+    "floor": "2nd Floor",
+    "description": "Near the central staircase, equipped with high-definition audio-visual systems."
+  },
+  {
+    "name": "Seminar Hall B",
+    "building": "Admin Block",
+    "floor": "Ground Floor",
+    "description": "Opposite the Dean's Office, ideal for guest lectures and small events."
+  },
+  {
+    "name": "Lab 1",
+    "building": "Science Block",
+    "floor": "1st Floor",
+    "description": "The main chemistry lab next to the staff room."
+  },
+  {
+    "name": "CSE Lab 1",
+    "building": "Engineering Block",
+    "floor": "3rd Floor",
+    "description": "Advanced programming lab equipped with core computer terminals."
+  },
+  {
+    "name": "Auditorium",
+    "building": "Silver Jubilee Block",
+    "floor": "Ground Floor",
+    "description": "Large conference hall with a capacity of 1,000 seats, located at the east gate entrance."
+  },
+  {
+    "name": "Library",
+    "building": "Central Block",
+    "floor": "2nd and 3rd Floors",
+    "description": "Central reading and borrowing wing opposite the registrar office."
+  },
+  {
+    "name": "Room 101",
+    "building": "Engineering Block",
+    "floor": "1st Floor",
+    "description": "CSE first-year classroom near the drinking water station."
+  }
+]
